@@ -1,0 +1,10 @@
+
+INSTALAR POR SI NO LO TENES:
+npm init
+npm install axios
+npm install express
+npm install dotenv
+
+LEVANTAR EL INDEX CON:
+node .
+
