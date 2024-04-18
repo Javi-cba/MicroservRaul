@@ -5,15 +5,16 @@ require('dotenv').config();
 //
 
 const app = express();
-const PORT = 3500
+const PORT = process.env.PORT2;
+const PORTmserv = process.env.PORT;
 
-// ENDPOINT para recibir datos del otro microservice:
+
+// Endpoints para recibir datos del microservice:
 app.get('/Peliculas', async(req, res) => {
     
     try {
-        const resp = await axios.get(`https://dictionaryapi.com/api/v3/references/spanish/json/Correr?key=47f65980-f725-42b4-8505-2b1c1967450b`);// reemplazalo con el endpoint
-        const cjtsArray = resp.data[0].suppl.cjts; 
-        res.json(cjtsArray);// aca deberia mostrar el json que devuelve la api de peliculas
+        const resp = await axios.get(`http://localhost:${PORTmserv}/peliculas`);
+        res.json(resp.data);
      
     } catch (error) {
       console.error(error);
@@ -21,6 +22,19 @@ app.get('/Peliculas', async(req, res) => {
     }
   });
   
+  app.get('/Peliculas/:title', async(req, res) => {
+    const tittle= req.params.title;
+    try {
+        const resp = await axios.get(`http://localhost:${PORTmserv}/peliculas/title/${tittle}`);
+        res.json(resp.data);
+     
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Error ' });
+    }
+  });
+
+
 app.listen(PORT, () => {
-    console.log(`Servidor de suma corriendo en http://localhost:${PORT}`);
+    console.log(`Servidor Principal http://localhost:${PORT}`);
   });
